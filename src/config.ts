@@ -25,10 +25,10 @@ export type Locale = (typeof locales)[number];
  * automatically — the entry won't render and no broken `your-handle`
  * URL is exposed.
  */
-const GITHUB_HANDLE = import.meta.env.PUBLIC_GITHUB_HANDLE ?? '';
-const GITHUB_REPO = import.meta.env.PUBLIC_GITHUB_REPO ?? 'chirping-astro';
-const TWITTER_HANDLE = import.meta.env.PUBLIC_TWITTER_HANDLE ?? '';
-const CONTACT_EMAIL = import.meta.env.PUBLIC_CONTACT_EMAIL ?? '';
+const GITHUB_HANDLE = import.meta.env.PUBLIC_GITHUB_HANDLE || 'fhowo-top';
+const GITHUB_REPO = import.meta.env.PUBLIC_GITHUB_REPO || 'Blog';
+const TWITTER_HANDLE = import.meta.env.PUBLIC_TWITTER_HANDLE || '';
+const CONTACT_EMAIL = import.meta.env.PUBLIC_CONTACT_EMAIL || 'me@fhowo.top';
 const THEME_REPO_URL = 'https://github.com/kannansuresh/chirping-astro';
 
 /**
