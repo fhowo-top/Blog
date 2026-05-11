@@ -3,6 +3,7 @@ import rss from '@astrojs/rss';
 import type { APIRoute } from 'astro';
 import { SITE } from '~/config';
 import { getPosts, postPath } from '~/utils/posts';
+import { htmlLang } from '~/i18n/utils';
 
 export const GET: APIRoute = async (context) => {
   const { locale } = context.props;
@@ -15,7 +16,7 @@ export const GET: APIRoute = async (context) => {
       site: siteWithBase,
       stylesheet: `${base}/rss/styles.xsl`,
       items: [],
-      customData: `<language>en-us</language>`,
+      customData: `<language>${htmlLang(locale)}</language>`,
     });
   }
 
@@ -36,7 +37,7 @@ export const GET: APIRoute = async (context) => {
       link: postPath(post),
       categories: [...post.data.tags, ...post.data.categories],
     })),
-    customData: `<language>en-us</language>`,
+    customData: `<language>${htmlLang(locale)}</language>`,
   });
 };
 

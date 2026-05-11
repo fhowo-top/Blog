@@ -11,7 +11,7 @@ import BackToTop from '../components/islands/BackToTop.astro';
 import { ClientRouter } from 'astro:transitions';
 import faviconImg from '../assets/images/site/favicon.svg';
 import { SITE, type Locale } from '../config';
-import { detectLocale, htmlLang, useTranslations, stripLocale, withBase } from '../i18n/utils';
+import { detectLocale, htmlLang, useTranslations, stripLocale, withBase, localizedPath, localeLabel } from '../i18n/utils';
 import { buildSeo, type SeoMeta } from '../utils/seo';
 
 interface Props {
@@ -86,18 +86,16 @@ const meta: SeoMeta =
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f6f7f8" />
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1b1b1e" />
     <link rel="icon" type="image/svg+xml" href={withBase(faviconImg.src)} />
-    <link
-      rel="alternate"
-      type="application/rss+xml"
-      title={`${SITE.title} (EN)`}
-      href={withBase('/rss.xml')}
-    />
-    <link
-      rel="alternate"
-      type="application/rss+xml"
-      title={`${SITE.title} (FR)`}
-      href={withBase('/fr/rss.xml')}
-    />
+    {
+      SITE.locales.map((l) => (
+        <link
+          rel="alternate"
+          type="application/rss+xml"
+          title={`${SITE.title} (${localeLabel(l)})`}
+          href={localizedPath('/rss.xml', l)}
+        />
+      ))
+    }
     <SEO meta={meta} />
     {/* Custom fonts configured via Astro Fonts API */}
     <Font cssVariable="--font-source-sans-3" />

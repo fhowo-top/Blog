@@ -13,7 +13,7 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 import type { ImageMetadata } from 'astro';
 
 import { SITE, type Locale } from '../config';
-import { withBase } from '../i18n/utils';
+import { withBase, htmlLang } from '../i18n/utils';
 
 export type Post = CollectionEntry<'posts'> & {
   data: CollectionEntry<'posts'>['data'] & { lang: Locale; translationKey: string };
@@ -166,7 +166,7 @@ export function groupByYearMonth(
     if (!months.has(m)) months.set(m, []);
     months.get(m)!.push(post);
   }
-  const lang = locale === 'fr' ? 'fr-FR' : 'en-US';
+  const lang = htmlLang(locale);
   const fmt = new Intl.DateTimeFormat(lang, { month: 'long' });
   return Array.from(buckets.entries())
     .sort((a, b) => b[0] - a[0])
@@ -230,7 +230,7 @@ export function slugify(value: string): string {
     .toLowerCase()
     .normalize('NFKD')
     .replace(/[\u0300-\u036f]/g, '')
-    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/[^\p{L}\p{N}]+/gu, '-')
     .replace(/^-+|-+$/g, '');
 }
 

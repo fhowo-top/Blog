@@ -2,9 +2,8 @@
 /**
  * i18n utilities.
  *
- * Routing rules:
- *  - EN is the default locale and serves at the URL root with NO prefix.
- *  - FR is served under `/fr/...`.
+ * Single-language site (zh only). All i18n helpers are retained for
+ * API compatibility but resolve trivially to the sole locale.
  *
  * Source-of-truth: `src/config.ts` -> SITE.locales / SITE.defaultLocale.
  */
@@ -118,7 +117,7 @@ export function formatDate(
   const d = typeof date === 'string' ? new Date(date) : date;
   if (Number.isNaN(d.getTime())) return '';
   if (SITE.isoDates) return d.toISOString().slice(0, 10);
-  const lang = locale === 'fr' ? 'fr-FR' : 'en-US';
+  const lang = htmlLang(locale);
   return new Intl.DateTimeFormat(lang, options).format(d);
 }
 
@@ -166,23 +165,11 @@ export function canonicalUrl(pathname: string): string {
 }
 
 /** Pretty label for the language switcher. */
-export function localeLabel(locale: Locale): string {
-  switch (locale) {
-    case 'fr':
-      return 'Français';
-    case 'en':
-    default:
-      return 'English';
-  }
+export function localeLabel(_locale: Locale): string {
+  return '中文';
 }
 
 /** ISO BCP 47 language tag for `<html lang>` and date formatters. */
-export function htmlLang(locale: Locale): string {
-  switch (locale) {
-    case 'fr':
-      return 'fr-FR';
-    case 'en':
-    default:
-      return 'en-US';
-  }
+export function htmlLang(_locale: Locale): string {
+  return 'zh-CN';
 }

@@ -9,7 +9,6 @@ import { SITE, NAV, SOCIALS, type Locale } from '../config';
 import { useTranslations, localizedPath, withBase } from '../i18n/utils';
 import type { UIKey } from '../i18n/ui';
 import { Icon } from 'astro-icon/components';
-import { Image } from 'astro:assets';
 import ThemeToggle from './islands/ThemeToggle.astro';
 
 interface Props {
@@ -20,8 +19,9 @@ const { locale } = Astro.props;
 const t = useTranslations(locale);
 const home = localizedPath('/', locale);
 const avatar = SITE.author.avatar;
-const isStringAvatar = typeof avatar === 'string';
-const avatarSrc = isStringAvatar ? avatar.trim() : '';
+const avatarSrc = typeof avatar === 'string'
+  ? avatar.trim()
+  : (avatar as NonNullable<typeof avatar>).src;
 
 const navItems = NAV.map((item) => ({
   ...item,
@@ -35,32 +35,26 @@ const navItems = NAV.map((item) => ({
   <header class="flex w-full flex-col items-center pt-4 pb-6 text-center">
     <a href={home} class="flex flex-col items-center" aria-label={SITE.title}>
       <span
-        class="border-base-100 block h-28 w-28 overflow-hidden rounded-full border-4 shadow-sm transition hover:scale-[1.02]"
-        style="background:linear-gradient(135deg, var(--color-primary), color-mix(in oklab, var(--color-primary) 70%, white));"
+        class="border-base-100 relative block h-28 w-28 overflow-hidden rounded-full border-4 shadow-sm transition hover:scale-[1.02]"
       >
+        {/* Loading skeleton — a subtle pulsing circle that disappears when the image loads */}
+        <span
+          class="avatar-skeleton bg-base-300 absolute inset-0 animate-pulse"
+          aria-hidden="true"
+        ></span>
         {
           avatar ? (
-            isStringAvatar ? (
-              <img
-                src={avatarSrc.startsWith('/') ? withBase(avatarSrc) : avatarSrc}
-                alt={SITE.author.name}
-                width="112"
-                height="112"
-                class="h-full w-full object-cover"
-                loading="eager"
-                decoding="async"
-              />
-            ) : (
-              <Image
-                src={avatar}
-                alt={SITE.author.name}
-                width={112}
-                height={112}
-                class="h-full w-full object-cover"
-                loading="eager"
-                decoding="async"
-              />
-            )
+            <img
+              src={avatarSrc.startsWith('/') ? withBase(avatarSrc) : avatarSrc}
+              alt={SITE.author.name}
+              width="112"
+              height="112"
+              class="avatar-img relative h-full w-full object-cover opacity-0 transition-opacity duration-500"
+              loading="eager"
+              decoding="async"
+              onload="this.classList.remove('opacity-0');this.previousElementSibling?.classList.add('hidden');"
+              onerror="this.previousElementSibling?.classList.add('hidden');"
+            />
           ) : (
             <span class="text-primary-content flex h-full w-full items-center justify-center text-3xl font-bold">
               {SITE.title.charAt(0)}

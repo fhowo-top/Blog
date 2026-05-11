@@ -1,4 +1,4 @@
-import avatarImg from './assets/images/site/avatar.svg';
+import avatarImg from './assets/images/site/avatar.png';
 import ogDefaultImg from './assets/images/site/og-default.svg';
 import type { SiteConfig, NavItem, SocialLink, GiscusConfig } from './types/config';
 
@@ -14,7 +14,7 @@ export const SITE_IMAGES = {
   ogDefault: ogDefaultImg,
 } as const;
 
-export const locales = ['en', 'fr'] as const;
+export const locales = ['zh'] as const;
 export type Locale = (typeof locales)[number];
 
 /**
@@ -49,16 +49,16 @@ export const SITE: SiteConfig = {
   // ==========================================
 
   /** Default site title used as homepage <title> and meta. */
-  title: 'Chirping Astro',
+  title: '风绘的博客',
   /** Site tagline / description. */
   description:
-    'A modern, multilingual Astro v6 theme inspired by Chirpy — built with Tailwind v4, daisyUI, MDX, Pagefind, and Giscus.',
+    '这里是风绘的技术小窝，写博客、敲代码、偶尔发呆。',
   /** Author/handle shown in footer + meta. */
   author: {
-    name: 'Chirping Astro',
+    name: '风绘',
     url: GITHUB_HANDLE ? `https://github.com/${GITHUB_HANDLE}` : undefined,
     avatar: avatarImg,
-    bio: 'A text-focused Astro V6 theme.',
+    bio: '欲买桂花同载酒，终不似，少年游',
   },
   /** Default OG image. */
   defaultOgImage: ogDefaultImg.src,
@@ -82,7 +82,7 @@ export const SITE: SiteConfig = {
      * Optional full override for the left footer line. Supports {year} and {author}.
      * Default when undefined: "© {year} {author}. All rights reserved." (+ Privacy Policy link if enabled).
      */
-    leftText: undefined,
+    leftText: '© 风绘的博客 {year}',
     /**
      * Optional custom text before the theme link on the right footer line.
      * Default when undefined: "Powered by Astro · Theme <themeName>".
@@ -105,13 +105,13 @@ export const SITE: SiteConfig = {
   /** Public URL of the deployed site, no trailing slash. Breaks SEO/RSS if incorrect. */
   // `||` (not `??`) so an explicitly empty `SITE_URL=` in `.env` also
   // falls back to the default. Astro requires `site` to be a valid URL.
-  url: import.meta.env.SITE_URL || 'https://chirping-astro.example.com',
+  url: import.meta.env.SITE_URL || 'https://blog.fhowo.top',
   /** Supported locales. Changing this requires adding/removing locale folders, content, and i18n entries. */
   locales: locales,
   /** Default locale. Changing this is a breaking, atomic, multi-file operation. */
-  defaultLocale: 'en',
+  defaultLocale: 'zh',
   /** Show the language switcher and link to translated pages. */
-  multilingual: true,
+  multilingual: false,
 };
 
 export const NAV: readonly NavItem[] = [
@@ -167,7 +167,7 @@ export const GISCUS: GiscusConfig = {
   strict: '0',
   reactionsEnabled: '1',
   emitMetadata: '0',
-  inputPosition: 'bottom',
+  inputPosition: 'top',
   loading: 'lazy',
 };
 
